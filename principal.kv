@@ -1,0 +1,2482 @@
+#:import C kivy.utils.get_color_from_hex
+#:import DropDown kivy.uix.dropdown
+Principal:
+    SeConnecter:
+    CreerCompte:
+    Accueil:
+
+<SeConnecter>:
+    name:"connect"
+    BoxLayout:
+        id:scnt
+        orientation: "vertical"
+        space_x: self.size[0]/3
+        canvas.before:
+            Color:
+                rgba: C('#FFFFFF')
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        BoxLayout:
+            size_hint_y: None
+            height:50
+            padding:10
+            canvas.before:
+                Color:
+                    rgba: C('#1B3E97')
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Label:
+                text: "Parc Auto"
+                font_size:'25sp'
+                bold: True
+                size_hint_x: .0
+        BoxLayout:
+            size_hint_y: None
+            height:50
+            canvas.before:
+                Color:
+                    rgba: C('#163586')
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Label:
+                text: "AUTHENTIFICATION"
+                font_size:'30sp'
+                bold: True
+                size_hint_x: .9
+
+        BoxLayout:
+            orientation:"vertical"
+            padding: 300,200,300,100
+            spacing: 20
+            BoxLayout:
+                orientation:"vertical"
+                spacing: 10
+                size_hint_y: None
+                height: 80
+                MDTextField:
+                    id:username
+                    hint_text: "Nom d'utilisateur"
+                    multiline:False
+                    mode: "fill"
+                    icon_right:"account"
+                    on_text_validate: pwd.focus = True
+                MDTextField:
+                    id:pwd
+                    hint_text: "Mot de passe"
+                    mode: "fill"
+                    multiline:False
+                    password: True
+                    on_text_validate: root.validate_user()
+                RelativeLayout:
+                    size_hint : (0.5, 1.0)
+                    MDIconButton:
+                        icon: "eye-off"
+                        ripple_scale: .5
+                        pos: pwd.width - self.width + dp(8), 10
+                        on_release:
+                            self.icon = "eye" if self.icon == "eye-off" else "eye-off"
+                            pwd.password = False if pwd.password is True else True
+            Label:
+                id: sp
+                size_hint_y: None
+                height: 40
+            BoxLayout:
+                orientation:'horizontal'
+                padding:20
+                Label:
+                    size_hint_x:.7
+                MDRoundFlatButton:
+                    text:"Se connecter"
+                    bold:True
+                    text_color:C("#FFFFFF")
+                    md_bg_color: "#1B3E97"
+                    line_color: "#1B3E97"
+                    size_hint_y: None
+                    height: 30
+                    size_hint_x:.99
+                    on_release:root.validate_user()
+            Label:
+                id: sp2
+            BoxLayout:
+                orientation:'horizontal'
+                size_hint_y: None
+                height: 50
+                spacing: 80
+                Label:
+                    text:'Pas de compte ?'
+                    color:C('#000000')
+                    bold: True
+                    size_hint_x: .6
+                Button:
+                    background_color:(0,0,0,0)
+                    text:"Créer un compte"
+                    color:C('#000000')
+                    bold:True
+                    size_hint_y: None
+                    height:50
+                    on_release:app.root.current = 'compte'
+        BoxLayout:
+            size_hint_y: None
+            height:20
+            canvas.before:
+                Color:
+                    rgba: C('#163586')
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Label:
+                text: "Copyrigth@ tout droit reservé"
+                bold: True
+                size_hint_x: .9
+
+
+<SmoothButton@Button>:
+    background_color:(0,0,0,0)
+    background_normal:''
+    border_radius: [10]
+    canvas.before:
+        Color:
+            rgba: C('#1B3E97')
+        RoundedRectangle:
+            size:self.size
+            pos:self.pos
+            #radius:self.border_radius
+
+
+<CreerCompte>:
+    name:"compte"
+    BoxLayout:
+        id:cmt
+        orientation: "vertical"
+        canvas.before:
+            Color:
+                rgba: C('#FFFFFF')
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        BoxLayout:
+            size_hint_y: None
+            height:50
+            padding:10
+            canvas.before:
+                Color:
+                    rgba: C('#1B3E97')
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Label:
+                text: "Parc Auto"
+                font_size:'25sp'
+                bold: True
+                size_hint_x: .0
+        BoxLayout:
+            size_hint_y: None
+            height:50
+            canvas.before:
+                Color:
+                    rgba: C('#163586')
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Label:
+                text: "COMPTE"
+                font_size:'30sp'
+                bold: True
+                size_hint_x: .9
+        FloatLayout:
+            orientation:'vertical'
+            size_hint_y:.3
+            BoxLayout:
+                orientation:"horizontal"
+                spacing: 30
+                padding:50,100,100,160
+                BoxLayout:
+                    orientation:"vertical"
+                    spacing: 10
+                    padding:10
+                    size_hint_y: None
+                    height: 80
+                    Label:
+                        text: "PRENOM"
+                        bold: True
+                        color:C('#000000')
+                    MDTextField:
+                        id:prenom
+                        hint_text: "Prenom"
+                        multiline:False
+                        mode: "round"
+                        icon_right:"account"
+                    Label:
+                        text: "NOM"
+                        bold: True
+                        color:C('#000000')
+                    MDTextField:
+                        id:nom
+                        hint_text: "Nom"
+                        icon_right:"account"
+                        mode: "round"
+                        multiline:False
+
+                    Label:
+                        text: "DATE NAISSANCE"
+                        bold: True
+                        color:C('#000000')
+                    MDTextField:
+                        id:age
+                        hint_text: "AAAA-MM-JJ"
+                        mode: "round"
+                        multiline:False
+                    RelativeLayout:
+                        size_hint : (0.5, 1.0)
+                        MDIconButton:
+                            icon: "calendar"
+                            ripple_scale: .5
+                            pos: age.width - self.width + dp(3), 4
+                            on_press:root.afficheDateN()
+
+                    Label:
+                        text: "SEXE"
+                        bold: True
+                        color:C('#000000')
+                    MDTextField:
+                        id:sexe
+                        hint_text: "Selectionner"
+                        icon_right:"human"
+                        mode: "round"
+                        multiline:False
+                        on_focus: if self.focus: root.liste()
+                BoxLayout:
+                    orientation:"vertical"
+                    spacing: 10
+                    padding:10
+                    size_hint_y: None
+                    height: 80
+                    Label:
+                        text: "EMAIL"
+                        bold: True
+                        color:C('#000000')
+                    MDTextField:
+                        id:email
+                        hint_text: "Email"
+                        multiline:False
+                        mode: "round"
+                        icon_right:"email"
+                    Label:
+                        text: "FONCTION"
+                        bold: True
+                        color:C('#000000')
+                    MDTextField:
+                        id:fonc
+                        hint_text: "Selectionner"
+                        mode: "round"
+                        multiline:False
+                        on_focus: if self.focus: root.poste()
+
+                    Label:
+                        text: "DATE"
+                        bold: True
+                        color:C('#000000')
+                    MDTextField:
+                        id:dateIns
+                        hint_text: "AAAA-MM-JJ"
+                        mode: "round"
+                        multiline:False
+                    RelativeLayout:
+                        size_hint : (0.5, 1.0)
+                        MDIconButton:
+                            icon: "calendar"
+                            ripple_scale: .5
+                            pos: txtPass.width - self.width + dp(0), 4
+                            on_press:root.afficheDate()
+                    Label:
+                        text: "TELEPHONE"
+                        bold: True
+                        color:C('#000000')
+                    MDTextField:
+                        id:tel
+                        hint_text: "Téléphone"
+                        multiline:False
+                        mode: "round"
+                        icon_right:"phone"
+                BoxLayout:
+                    orientation:"vertical"
+                    spacing: 10
+                    padding:10,10,0,0
+                    size_hint_y: None
+                    height: 80
+                    Label:
+                        text: "NATIONALITE"
+                        bold: True
+                        color:C('#000000')
+                    MDTextField:
+                        id:nation
+                        hint_text: "nationalité"
+                        mode: "round"
+                        multiline:False
+                    Label:
+                        text: "ADRESSE"
+                        bold: True
+                        color:C('#000000')
+                    MDTextField:
+                        id:adresse
+                        hint_text: "Adresse"
+                        icon_right:"map-marker"
+                        mode: "round"
+                        multiline:False
+                    Label:
+                        text: "MOT DE PASSE"
+                        bold: True
+                        color:C('#000000')
+                    MDTextField:
+                        id:txtPass
+                        hint_text: "Mot de passe"
+                        icon_left:"key-variant"
+                        icon_right:
+                        mode: "round"
+                        password:True
+                        multiline:False
+                    RelativeLayout:
+                        size_hint : (0.5, 1.0)
+                        MDIconButton:
+                            icon: "eye-off"
+                            ripple_scale: .5
+                            pos: txtPass.width - self.width + dp(8), 4
+                            on_release:
+                                self.icon = "eye" if self.icon == "eye-off" else "eye-off"
+                                txtPass.password = False if txtPass.password is True else True
+                    Label:
+                        text: "CONFIRMER"
+                        bold: True
+                        color:C('#000000')
+                    MDTextField:
+                        id:confirm
+                        hint_text: "confirmer"
+                        icon_left:'key-variant'
+                        mode: "round"
+                        password:True
+                        multiline:False
+                    RelativeLayout:
+                        size_hint : (0.5, 1.0)
+                        MDIconButton:
+                            icon: "eye-off"
+                            ripple_scale: .5
+                            pos: confirm.width - self.width + dp(8), 4
+                            on_release:
+                                self.icon = "eye" if self.icon == "eye-off" else "eye-off"
+                                confirm.password = False if confirm.password is True else True
+            BoxLayout:
+                orientation:'horizontal'
+                padding:200,100,200,50
+                spacing:90
+                AnnulerButton:
+                    id:btnAnnuler
+                    text:"Annuler"
+                    bold:True
+                    size_hint:(.3,.1)
+                    on_release:app.root.current = 'connect'
+                SmoothValidButton:
+                    id:btnValider
+                    text:"Valider"
+                    bold:True
+                    size_hint:(.3,.1)
+                    on_release:root.validate_user()
+
+        BoxLayout:
+            size_hint_y: None
+            height:20
+            canvas.before:
+                Color:
+                    rgba: C('#163586')
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Label:
+                text: "Copyrigth@ tout droit reservé"
+                bold: True
+                size_hint_x: .9
+
+<SmoothValidButton@Button>:
+    background_color:(0,0,0,0)
+    background_normal:''
+    border_radius: [10]
+    canvas.before:
+        Color:
+            rgba: C('#2051FF')
+        RoundedRectangle:
+            size:self.size
+            pos:self.pos
+
+<AnnulerButton@Button>:
+    background_color:(0,0,0,0)
+    background_normal:''
+    border_radius: [10]
+    canvas.before:
+        Color:
+            rgba: C('#E0062D')
+        RoundedRectangle:
+            size:self.size
+            pos:self.pos
+
+<Accueil>:
+    name:"accl"
+    BoxLayout:
+        id:acl
+        orientation: "vertical"
+        canvas.before:
+            Color:
+                rgba: C('#FFFFFF')
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        #Entete
+        BoxLayout:
+            padding:5
+            size_hint_y: None
+            height:50
+            canvas.before:
+                Color:
+                    rgba: C('#1B3E97')
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Label:
+                text: "Parc Auto"
+                font_size:'25sp'
+                bold: True
+                size_hint_x: .9
+            deconnect:
+                id:btnDeconnecter
+                text:'Se déconnecter'
+                color:C('#000000')
+                size_hint:(.2,.8)
+                height:40
+                on_release:root.deconnecter(self)
+
+        #Menu
+        BoxLayout:
+            padding:5
+            id:menu
+            size_hint_y: None
+            height:50
+            orientation:'horizontal'
+            spacing:5
+            canvas.before:
+                Color:
+                    rgba: C('#163586')
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            vehicule_dropdown: vehicule_dropdown.__self__
+            location_dropdown: location_dropdown.__self__
+            vente_dropdown: vente_dropdown.__self__
+            client_dropdown: client_dropdown.__self__
+            personnel_dropdown: personnel_dropdown.__self__
+            entretien_dropdown: entretien_dropdown.__self__
+            fournisseur_dropdown: fournisseur_dropdown.__self__
+            appro_dropdown: appro_dropdown.__self__
+            SmoothButton:
+                id:btnAccueil
+                text:'Accueil'
+                color:C('#000000')
+                size_hint:(.3,None)
+                height:40
+                group:'menu'
+                on_state:root.accueil_screen(self)
+
+            SmoothButton:
+                id:btnVehicule
+                text:'Vehicules'
+                color:C('#000000')
+                size_hint:(.3,None)
+                height:40
+                on_release:vehicule_dropdown.open(self)
+
+                Widget:
+                    on_parent:vehicule_dropdown.dismiss()
+
+                    DropDown:
+                        id:vehicule_dropdown
+                        Button:
+                            id:btnAjouterVehicule
+                            background_color:C('fffffff')
+                            text:'Ajouter'
+                            color:C('#000000')
+                            size_hint_y:None
+                            height:30
+                            group:'menu'
+                            on_state:root.Ajouter_screen(self)
+                            on_release:vehicule_dropdown.dismiss()
+                        Button:
+                            id:btnAfficherVehicule
+                            background_color:C('fffffff')
+                            text:'Liste'
+                            color:C('#000000')
+                            size_hint_y:None
+                            height:30
+                            group:'menu'
+                            on_state:root.change_screen(self)
+                            on_release:vehicule_dropdown.dismiss()
+
+            SmoothButton:
+                id:btnLocation
+                text:'Locations'
+                color:C('#000000')
+                size_hint:(.3,None)
+                height:40
+
+                on_release:location_dropdown.open(self)
+
+                Widget:
+                    on_parent:location_dropdown.dismiss()
+
+                    DropDown:
+                        id:location_dropdown
+                        Button:
+                            id:btnAjouterLocation
+                            background_color:C('fffffff')
+                            text:'Ajouter'
+                            color:C('#000000')
+                            size_hint_y:None
+                            height:30
+                            group:'menu'
+                            on_state:root.Ajouter_Loca(self)
+                            on_release:location_dropdown.dismiss()
+                        Button:
+                            id:btnAfficherLocation
+                            background_color:C('fffffff')
+                            text:'Liste'
+                            color:C('#000000')
+                            size_hint_y:None
+                            height:30
+                            group:'menu'
+                            on_state:root.loca(self)
+                            on_release:location_dropdown.dismiss()
+
+            SmoothButton:
+                id:btnVente
+                text:'Ventes'
+                color:C('#000000')
+                size_hint:(.3,None)
+                height:40
+                on_release:vente_dropdown.open(self)
+
+                Widget:
+                    on_parent:vente_dropdown.dismiss()
+
+                    DropDown:
+                        id:vente_dropdown
+                        Button:
+                            id:btnAjouterVente
+                            background_color:C('fffffff')
+                            text:'Ajouter'
+                            color:C('#000000')
+                            size_hint_y:None
+                            height:30
+                            group:'menu'
+                            on_state:root.Ajouter_vente(self)
+                            on_release:vente_dropdown.dismiss()
+                        Button:
+                            id:btnAfficherVente
+                            background_color:C('fffffff')
+                            text:'Liste'
+                            color:C('#000000')
+                            size_hint_y:None
+                            height:30
+                            group:'menu'
+                            on_state:root.vente(self)
+                            on_release:vente_dropdown.dismiss()
+
+            SmoothButton:
+                id:btnClient
+                text:'Clients'
+                color:C('#000000')
+                size_hint:(.3,None)
+                height:40
+                on_release:client_dropdown.open(self)
+
+                Widget:
+                    on_parent:client_dropdown.dismiss()
+
+                    DropDown:
+                        id:client_dropdown
+                        Button:
+                            id:btnAjouterClient
+                            background_color:C('fffffff')
+                            text:'Ajouter'
+                            color:C('#000000')
+                            size_hint_y:None
+                            height:30
+                            group:'menu'
+                            on_state:root.Ajouter_client(self)
+                            on_release:client_dropdown.dismiss()
+                        Button:
+                            id:btnAfficherClient
+                            background_color:C('fffffff')
+                            text:'Liste'
+                            color:C('#000000')
+                            size_hint_y:None
+                            height:30
+                            group:'menu'
+                            on_state:root.client(self)
+                            on_release:client_dropdown.dismiss()
+
+            SmoothButton:
+                id:btnPersonnel
+                text:'Personnels'
+                color:C('#000000')
+                size_hint:(.3,None)
+                height:40
+                on_release:personnel_dropdown.open(self)
+
+                Widget:
+                    on_parent:personnel_dropdown.dismiss()
+
+                    DropDown:
+                        id:personnel_dropdown
+                        Button:
+                            id:btnAjouterPersonnel
+                            background_color:C('fffffff')
+                            text:'Ajouter'
+                            color:C('#000000')
+                            size_hint_y:None
+                            height:30
+                            group:'menu'
+                            on_state:root.Ajouter_personnel(self)
+                            on_release:personnel_dropdown.dismiss()
+                        Button:
+                            id:btnAfficherPersonnel
+                            background_color:C('fffffff')
+                            text:'Liste'
+                            color:C('#000000')
+                            size_hint_y:None
+                            height:30
+                            group:'menu'
+                            on_state:root.personnel(self)
+                            on_release:personnel_dropdown.dismiss()
+
+            SmoothButton:
+                id:btnEntretien
+                text:'Entretiens'
+                color:C('#000000')
+                size_hint:(.3,None)
+                height:40
+                on_release:entretien_dropdown.open(self)
+
+                Widget:
+                    on_parent:entretien_dropdown.dismiss()
+
+                    DropDown:
+                        id:entretien_dropdown
+                        Button:
+                            id:btnAjouterEntretien
+                            background_color:C('fffffff')
+                            text:'Ajouter'
+                            color:C('#000000')
+                            size_hint_y:None
+                            height:30
+                            group:'menu'
+                            on_state:root.Ajouter_entretien(self)
+                            on_release:entretien_dropdown.dismiss()
+                        Button:
+                            id:btnAfficherEntretien
+                            background_color:C('fffffff')
+                            text:'Liste'
+                            color:C('#000000')
+                            size_hint_y:None
+                            height:30
+                            group:'menu'
+                            on_state:root.entretien(self)
+                            on_release:entretien_dropdown.dismiss()
+
+            SmoothButton:
+                id:btnFournisseur
+                text:'Fournisseurs'
+                color:C('#000000')
+                size_hint:(.3,None)
+                height:40
+                on_release:fournisseur_dropdown.open(self)
+
+                Widget:
+                    on_parent:fournisseur_dropdown.dismiss()
+
+                    DropDown:
+                        id:fournisseur_dropdown
+                        Button:
+                            id:btnAjouterFour
+                            background_color:C('fffffff')
+                            text:'Ajouter'
+                            color:C('#000000')
+                            size_hint_y:None
+                            height:30
+                            group:'menu'
+                            on_state:root.Ajouter_fournisseur(self)
+                            on_release:fournisseur_dropdown.dismiss()
+                        Button:
+                            id:btnAfficherFour
+                            background_color:C('fffffff')
+                            text:'Liste'
+                            color:C('#000000')
+                            size_hint_y:None
+                            height:30
+                            group:'menu'
+                            on_state:root.fournisseur(self)
+                            on_release:fournisseur_dropdown.dismiss()
+            SmoothButton:
+                id:btnAppro
+                text:'Appro'
+                color:C('#000000')
+                size_hint:(.3,None)
+                height:40
+                on_release:appro_dropdown.open(self)
+
+                Widget:
+                    on_parent:appro_dropdown.dismiss()
+
+                    DropDown:
+                        id:appro_dropdown
+                        Button:
+                            id:btnAjouterAppro
+                            background_color:C('fffffff')
+                            text:'Ajouter'
+                            color:C('#000000')
+                            size_hint_y:None
+                            height:30
+                            group:'menu'
+                            on_state:root.Ajouter_appro(self)
+                            on_release:appro_dropdown.dismiss()
+                        Button:
+                            id:btnAfficherAppro
+                            background_color:C('fffffff')
+                            text:'Liste'
+                            color:C('#000000')
+                            size_hint_y:None
+                            height:30
+                            group:'menu'
+                            on_state:root.appro(self)
+                            on_release:appro_dropdown.dismiss()
+        BoxLayout:
+            id:contenu
+            ScreenManager:
+                id:manager
+                Screen:
+                    id:accueil
+                    name:'Accueil'
+                    BoxLayout:
+                        id: stat
+                        orientation:'horizontal'
+                        padding:30
+                        spacing:40
+                        pos:(0,200)
+
+                        RoundedLayout:
+                            size_hint_x:.4
+                            size_hint_y:.3
+                            orientation:'vertical'
+                            height:70
+                            canvas.before:
+                                Color:
+                                    rgba: C('#AADAEF')
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+                            Label:
+                                text: "Locations"
+                                bold: True
+                                color:C('#000000')
+                                size_hint_x: .99
+
+                            Label:
+                                id:nbLocation
+                                text: "0"
+                                bold: True
+                                color:C('#000000')
+                                size_hint_x: .99
+                                pos_hint_x:.0
+                        RoundedLayout:
+                            size_hint_x:.4
+                            size_hint_y:.3
+                            orientation:'vertical'
+                            height:70
+                            canvas.before:
+                                Color:
+                                    rgba: C('#EFAFCA')
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+                            Label:
+                                text: "Clients"
+                                bold: True
+                                color:C('#000000')
+                                size_hint_x: .99
+                                pos_hint_x:.0
+
+                            Label:
+                                id:nbClient
+                                text: "0"
+                                bold: True
+                                color:C('#000000')
+                                size_hint_x: .99
+                                pos_hint_x:.0
+
+                        RoundedLayout:
+                            size_hint_x:.4
+                            size_hint_y:.3
+                            orientation:'vertical'
+                            height:70
+                            canvas.before:
+                                Color:
+                                    rgba: C('#ADA3A3')
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+                            Label:
+                                text: "Personnels"
+                                bold: True
+                                color:C('#000000')
+                                size_hint_x: .99
+                                pos_hint_x:.0
+
+                            Label:
+                                id:nbPersonnel
+                                text: "0"
+                                bold: True
+                                color:C('#000000')
+                                size_hint_x: .99
+                                pos_hint_x:.0
+
+                        RoundedLayout:
+                            size_hint_x:.4
+                            size_hint_y:.3
+                            orientation:'vertical'
+                            height:70
+                            canvas.before:
+                                Color:
+                                    rgba: C('#B0B6EA')
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+                            Label:
+                                text: "Vehicules"
+                                bold: True
+                                color:C('#000000')
+                                size_hint_x: .99
+                                pos_hint_x:.0
+
+                            Label:
+                                id:nbVehicule
+                                text: "0"
+                                bold: True
+                                color:C('#000000')
+                                size_hint_x: .99
+                                pos_hint_x:.0
+
+                        RoundedLayout:
+                            size_hint_x:.4
+                            size_hint_y:.3
+                            orientation:'vertical'
+                            height:70
+                            canvas.before:
+                                Color:
+                                    rgba: C('#D1F8D0')
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+                            Label:
+                                text: "Fournisseur"
+                                bold: True
+                                color:C('#000000')
+                                size_hint_x: .99
+                                pos_hint_x:.0
+
+                            Label:
+                                id:nbFour
+                                text: "0"
+                                bold: True
+                                color:C('#000000')
+                                size_hint_x: .99
+                                pos_hint_x:.0
+                Screen:
+                    id:vehi
+                    name:'Vehicule'
+                    BoxLayout:
+                        pos_hint: {'center_y': 0.954, 'center_x': 0.48}
+                        size_hint: 0.4, 0.09
+                        canvas:
+                            Color:
+                                rgb: C('#163586')
+                            Rectangle:
+                                size: self.size
+                                pos: self.pos
+                        Label:
+                            text: 'Listes des vehicules'
+                            font_size: 30
+                            color: C('#FFFFFF')
+                    MDRoundFlatButton:
+                        text: 'Modifier'
+                        font_size: 20
+                        text_color: 0,0,0
+                        md_bg_color: "#5C9AAD"
+                        line_color: "#5C9AAD"
+                        background_normal:''
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.87}
+                        size_hint: 0.2, 0.02
+                    MDRoundFlatButton:
+                        text: 'Rehercher'
+                        font_size: 20
+                        text_color: 0,0,0
+                        md_bg_color: "#D6D6D6"
+                        line_color: "#D6D6D6"
+                        background_normal:''
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.57}
+                        size_hint: 0.2, 0.02
+                    MDTextField:
+                        hint_text: "Taper ici pour rechercher"
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.2}
+                        mode: "round"
+                        multiline:False
+                        size_hint: 0.4, 0.06
+                        icon_left:"magnify"
+                        line_color_focus: 0,0,0
+                        text_color_focus: 0,0,0
+
+                Screen:
+                    id:ajoutV
+                    name:'Ajouter_Vehicule'
+                    BoxLayout:
+                        pos_hint: {'center_y': 0.954, 'center_x': 0.48}
+                        size_hint: 0.4, 0.09
+                        canvas:
+                            Color:
+                                rgb: C('#163586')
+                            Rectangle:
+                                size: self.size
+                                pos: self.pos
+                        Label:
+                            text: 'Ajouter un vehicule'
+                            font_size: 30
+                            color: C('#FFFFFF')
+                    FloatLayout:
+                        orientation:'vertical'
+                        size_hint_y:.3
+                        BoxLayout:
+                            orientation:"horizontal"
+                            spacing: 30
+                            padding:50,100,100,160
+                            BoxLayout:
+                                orientation:"vertical"
+                                spacing: 12
+                                padding:10
+                                size_hint_y: None
+                                height: 80
+                                Label:
+                                    text: "IMMATRICULATION"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:matricule
+                                    hint_text: "Immatriculation"
+                                    multiline:False
+                                    mode: "round"
+                                    icon_right:"car"
+                                Label:
+                                    text: "MOTEUR"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:moteur
+                                    hint_text: "Moteur"
+                                    icon_right:"car"
+                                    mode: "round"
+                                    multiline:False
+
+                                Label:
+                                    text: "TYPE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:type
+                                    hint_text: "Type"
+                                    icon_right:"car"
+                                    mode: "round"
+                                    multiline:False
+                                    on_focus:root.type_liste()
+
+                                Label:
+                                    text: "ETAT"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:etat
+                                    hint_text: "Etat"
+                                    icon_right:"car"
+                                    mode: "round"
+                                    multiline:False
+                                    on_focus:root.etat_liste()
+                            BoxLayout:
+                                orientation:"vertical"
+                                spacing: 10
+                                padding:10
+                                size_hint_y: None
+                                height: 80
+                                Label:
+                                    text: "DATE CIRCULATION"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:dateCir
+                                    hint_text: "AAAA-MM-JJ"
+                                    mode: "round"
+                                    multiline:False
+                                RelativeLayout:
+                                    size_hint : (0.5, 1.0)
+                                    MDIconButton:
+                                        icon: "calendar"
+                                        ripple_scale: .5
+                                        pos: dateCir.width - self.width + dp(3), 4
+                                        on_press:root.afficheDateN()
+                                Label:
+                                    text: "MARQUE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:marque
+                                    hint_text: "marque"
+                                    multiline:False
+                                    mode: "round"
+                                    icon_right:"car"
+                                Label:
+                                    text: "PORTE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:porte
+                                    hint_text: "Nombre de porte"
+                                    icon_right:"car"
+                                    mode: "round"
+                                    multiline:False
+
+                                Label:
+                                    text: "PLACE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:place
+                                    hint_text: "Nombre de place"
+                                    icon_right:"car"
+                                    mode: "round"
+                                    multiline:False
+                            BoxLayout:
+                                orientation:"vertical"
+                                spacing: 10
+                                padding:10
+                                size_hint_y: None
+                                height: 80
+                                Label:
+                                    text: "COULEUR"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:couleur
+                                    hint_text: "Couleur"
+                                    icon_right:"car"
+                                    mode: "round"
+                                    multiline:False
+
+                                Label:
+                                    text: "DATE INSERTION"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:dateIns
+                                    hint_text: "AAAA-MM-JJ"
+                                    mode: "round"
+                                    multiline:False
+                                RelativeLayout:
+                                    size_hint : (0.5, 1.0)
+                                    MDIconButton:
+                                        icon: "calendar"
+                                        ripple_scale: .5
+                                        pos: dateIns.width - self.width + dp(3), 4
+                                        on_press:root.afficheDate()
+                                Label:
+                                    text: "PRIX"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:prix
+                                    hint_text: "Prix"
+                                    multiline:False
+                                    mode: "round"
+                                    icon_right:"car"
+                                Label:
+                                    text: "KILOMETRAGE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:km
+                                    hint_text: "Kilometrage"
+                                    icon_right:"car"
+                                    mode: "round"
+                                    multiline:False
+                    BoxLayout:
+                        orientation:'horizontal'
+                        padding:200,100,200,50
+                        spacing:90
+                        AnnulerButton:
+                            id:btnAnnuler
+                            text:"Annuler"
+                            bold:True
+                            size_hint:(.3,.1)
+                            on_release:root.accueil_screen(self)
+                        SmoothValidButton:
+                            id:btnValider
+                            text:"Valider"
+                            bold:True
+                            size_hint:(.3,.1)
+                            on_release:root.ajouterVehicule()
+                Screen:
+                    id:location
+                    name:'Ajouter_Location'
+                    BoxLayout:
+                        pos_hint: {'center_y': 0.954, 'center_x': 0.48}
+                        size_hint: 0.4, 0.09
+                        canvas:
+                            Color:
+                                rgb: C('#163586')
+                            Rectangle:
+                                size: self.size
+                                pos: self.pos
+                        Label:
+                            text: 'Ajouter une location'
+                            font_size: 30
+                            color: C('#FFFFFF')
+                    FloatLayout:
+                        orientation:'vertical'
+                        size_hint_y:.3
+                        BoxLayout:
+                            orientation:"horizontal"
+                            spacing: 30
+                            padding:50,100,100,160
+                            BoxLayout:
+                                orientation:"vertical"
+                                spacing: 11
+                                padding:10
+                                size_hint_y: None
+                                height: 80
+                                Label:
+                                    text: "CLIENT"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:client
+                                    hint_text: "Client"
+                                    multiline:False
+                                    mode: "round"
+                                    icon_right:"account"
+                                Label:
+                                    text: "LIEU DE LIVRAISON"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:livraison
+                                    hint_text: "Lieu de livraison"
+                                    icon_right:"map-marker"
+                                    mode: "round"
+                                    multiline:False
+
+                                Label:
+                                    text: "VEHICULE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:vehiculeLoca
+                                    hint_text: "Vehicule"
+                                    icon_right:"car"
+                                    mode: "round"
+                                    multiline:False
+                                    on_focus:root.type_liste()
+                                Label:
+                                    text: "DATE LIVRAISON"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:dateLivraison
+                                    hint_text: "AAAA-MM-JJ"
+                                    mode: "round"
+                                    multiline:False
+                                RelativeLayout:
+                                    size_hint : (0.5, 1.0)
+                                    MDIconButton:
+                                        icon: "calendar"
+                                        ripple_scale: .5
+                                        pos: dateLivraison.width - self.width + dp(3), 4
+                                        on_press:root.dateLivraison()
+
+                            BoxLayout:
+                                orientation:"vertical"
+                                spacing: 10
+                                padding:10
+                                size_hint_y: None
+                                height: 80
+                                Label:
+                                    text: "DATE DE RETOUR"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:dateRetour
+                                    hint_text: "AAAA-MM-JJ"
+                                    mode: "round"
+                                    multiline:False
+                                RelativeLayout:
+                                    size_hint : (0.5, 1.0)
+                                    MDIconButton:
+                                        icon: "calendar"
+                                        ripple_scale: .5
+                                        pos: dateRetour.width - self.width + dp(3), 4
+                                        on_press:root.dateRetour()
+                                Label:
+                                    text: "MODE DE PAIEMENT"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:modePaiement
+                                    hint_text: "Mode de paiement"
+                                    multiline:False
+                                    mode: "round"
+                                    icon_right:"cash"
+                                Label:
+                                    text: "SOMME"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:somme
+                                    hint_text: "Somme"
+                                    icon_right:"cash"
+                                    mode: "round"
+                                    multiline:False
+                                Label:
+                                    text: "DATE DE PAIEMENT"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:datePaiement
+                                    hint_text: "AAAA-MM-JJ"
+                                    mode: "round"
+                                    multiline:False
+                                RelativeLayout:
+                                    size_hint : (0.5, 1.0)
+                                    MDIconButton:
+                                        icon: "calendar"
+                                        ripple_scale: .5
+                                        pos: datePaiement.width - self.width + dp(3), 4
+                                        on_press:root.datePaieLoca()
+                    BoxLayout:
+                        orientation:'horizontal'
+                        padding:200,100,200,50
+                        spacing:90
+                        AnnulerButton:
+                            id:btnAnnuler
+                            text:"Annuler"
+                            bold:True
+                            size_hint:(.3,.1)
+                            on_release:root.accueil_screen(self)
+                        SmoothValidButton:
+                            id:btnValider
+                            text:"Valider"
+                            bold:True
+                            size_hint:(.3,.1)
+                            on_release:root.ajouterVehicule()
+                Screen:
+                    id:loca
+                    name:'location'
+                    BoxLayout:
+                        pos_hint: {'center_y': 0.954, 'center_x': 0.48}
+                        size_hint: 0.4, 0.09
+                        canvas:
+                            Color:
+                                rgb: C('#163586')
+                            Rectangle:
+                                size: self.size
+                                pos: self.pos
+                        Label:
+                            text: 'Listes des locations'
+                            font_size: 30
+                            color: C('#FFFFFF')
+                    MDRoundFlatButton:
+                        text: 'Modifier'
+                        font_size: 20
+                        text_color: 0,0,0
+                        md_bg_color: "#5C9AAD"
+                        line_color: "#5C9AAD"
+                        background_normal:''
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.87}
+                        size_hint: 0.2, 0.02
+                    MDRoundFlatButton:
+                        text: 'Rehercher'
+                        font_size: 20
+                        text_color: 0,0,0
+                        md_bg_color: "#D6D6D6"
+                        line_color: "#D6D6D6"
+                        background_normal:''
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.57}
+                        size_hint: 0.2, 0.02
+                    MDTextField:
+                        hint_text: "Taper ici pour rechercher"
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.2}
+                        mode: "round"
+                        multiline:False
+                        size_hint: 0.4, 0.06
+                        icon_left:"magnify"
+                        line_color_focus: 0,0,0
+                        text_color_focus: 0,0,0
+                Screen:
+                    id:vente
+                    name:'Ajouter_Vente'
+                    BoxLayout:
+                        pos_hint: {'center_y': 0.954, 'center_x': 0.48}
+                        size_hint: 0.4, 0.09
+                        canvas:
+                            Color:
+                                rgb: C('#163586')
+                            Rectangle:
+                                size: self.size
+                                pos: self.pos
+                        Label:
+                            text: 'Ajouter des ventes'
+                            font_size: 30
+                            color: C('#FFFFFF')
+
+                    FloatLayout:
+                        orientation:'vertical'
+                        size_hint_y:.3
+                        BoxLayout:
+                            orientation:"horizontal"
+                            spacing: 30
+                            padding:50,100,100,160
+                            BoxLayout:
+                                orientation:"vertical"
+                                spacing: 11
+                                padding:10
+                                size_hint_y: None
+                                height: 80
+                                Label:
+                                    text: "CLIENT"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:client_vente
+                                    hint_text: "Client"
+                                    multiline:False
+                                    mode: "round"
+                                    icon_right:"account"
+                                Label:
+                                    text: "VEHICULE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:vehiculeVente
+                                    hint_text: "Vehicule"
+                                    icon_right:"car"
+                                    mode: "round"
+                                    multiline:False
+                                    on_focus:root.type_liste()
+                                Label:
+                                    text: "DATE VENTE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:dateVente
+                                    hint_text: "AAAA-MM-JJ"
+                                    mode: "round"
+                                    multiline:False
+                                RelativeLayout:
+                                    size_hint : (0.5, 1.0)
+                                    MDIconButton:
+                                        icon: "calendar"
+                                        ripple_scale: .5
+                                        pos: dateVente.width - self.width + dp(3), 4
+                                        on_press:root.dateVenteVehi()
+
+                            BoxLayout:
+                                orientation:"vertical"
+                                spacing: 10
+                                padding:10
+                                size_hint_y: None
+                                height: 80
+                                Label:
+                                    text: "MODE DE PAIEMENT"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:modePaiementV
+                                    hint_text: "Mode de paiement"
+                                    multiline:False
+                                    mode: "round"
+                                    icon_right:"cash"
+                                Label:
+                                    text: "SOMME"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:sommeV
+                                    hint_text: "Somme"
+                                    icon_right:"cash"
+                                    mode: "round"
+                                    multiline:False
+                                Label:
+                                    text: "DATE DE PAIEMENT"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:datePaiement_vente
+                                    hint_text: "AAAA-MM-JJ"
+                                    mode: "round"
+                                    multiline:False
+                                RelativeLayout:
+                                    size_hint : (0.5, 1.0)
+                                    MDIconButton:
+                                        icon: "calendar"
+                                        ripple_scale: .5
+                                        pos: datePaiement_vente.width - self.width + dp(3), 4
+                                        on_press:root.datePaieVehi()
+                    BoxLayout:
+                        orientation:'horizontal'
+                        padding:200,100,200,50
+                        spacing:90
+                        AnnulerButton:
+                            id:btnAnnuler
+                            text:"Annuler"
+                            bold:True
+                            size_hint:(.3,.1)
+                            on_release:root.accueil_screen(self)
+                        SmoothValidButton:
+                            id:btnValider
+                            text:"Valider"
+                            bold:True
+                            size_hint:(.3,.1)
+                            on_release:root.ajouterVente()
+                Screen:
+                    id:vnt
+                    name:'vente'
+                    BoxLayout:
+                        pos_hint: {'center_y': 0.954, 'center_x': 0.48}
+                        size_hint: 0.4, 0.09
+                        canvas:
+                            Color:
+                                rgb: C('#163586')
+                            Rectangle:
+                                size: self.size
+                                pos: self.pos
+                        Label:
+                            text: 'Listes des ventes'
+                            font_size: 30
+                            color: C('#FFFFFF')
+                    MDRoundFlatButton:
+                        text: 'Modifier'
+                        font_size: 20
+                        text_color: 0,0,0
+                        md_bg_color: "#5C9AAD"
+                        line_color: "#5C9AAD"
+                        background_normal:''
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.87}
+                        size_hint: 0.2, 0.02
+                    MDRoundFlatButton:
+                        text: 'Rehercher'
+                        font_size: 20
+                        text_color: 0,0,0
+                        md_bg_color: "#D6D6D6"
+                        line_color: "#D6D6D6"
+                        background_normal:''
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.57}
+                        size_hint: 0.2, 0.02
+                    MDTextField:
+                        id:rechercheVente
+                        hint_text: "Taper ici pour rechercher"
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.2}
+                        mode: "round"
+                        multiline:False
+                        size_hint: 0.4, 0.06
+                        icon_left:"magnify"
+                        line_color_focus: 0,0,0
+                        text_color_focus: 0,0,0
+                Screen:
+                    id:client
+                    name:'Ajouter_Client'
+                    BoxLayout:
+                        pos_hint: {'center_y': 0.954, 'center_x': 0.48}
+                        size_hint: 0.4, 0.09
+                        canvas:
+                            Color:
+                                rgb: C('#163586')
+                            Rectangle:
+                                size: self.size
+                                pos: self.pos
+                        Label:
+                            text: 'Ajouter un client'
+                            font_size: 30
+                            color: C('#FFFFFF')
+                    FloatLayout:
+                        orientation:'vertical'
+                        size_hint_y:.3
+                        BoxLayout:
+                            orientation:"horizontal"
+                            spacing: 30
+                            padding:50,100,100,120
+                            BoxLayout:
+                                orientation:"vertical"
+                                spacing: 10
+                                padding:10
+                                size_hint_y: None
+                                height: 80
+                                Label:
+                                    text: "PRENOM"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:prenomClient
+                                    hint_text: "Prenom"
+                                    multiline:False
+                                    mode: "round"
+                                    icon_right:"account"
+                                Label:
+                                    text: "NOM"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:nomClient
+                                    hint_text: "Nom"
+                                    multiline:False
+                                    mode: "round"
+                                    icon_right:"account"
+                                Label:
+                                    text: "SEXE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:sexeClient
+                                    hint_text: "sexe"
+                                    multiline:False
+                                    mode: "round"
+                                    icon_right:"account"
+                                    on_focus:root.sex_client()
+                                Label:
+                                    text: "NATIONALITE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:nationClient
+                                    hint_text: "Nationalité"
+                                    multiline:False
+                                    mode: "round"
+                                    icon_right:"account"
+                                Label:
+                                    text: "DATE DE NAISSANCE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:clientDateNaissance
+                                    hint_text: "AAAA-MM-JJ"
+                                    mode: "round"
+                                    multiline:False
+                                RelativeLayout:
+                                    size_hint : (0.5, 1.0)
+                                    MDIconButton:
+                                        icon: "calendar"
+                                        ripple_scale: .5
+                                        pos: clientDateNaissance.width - self.width + dp(3), 4
+                                        on_press:root.client_dateNaissance()
+
+                            BoxLayout:
+                                orientation:"vertical"
+                                spacing: 10
+                                padding:10
+                                size_hint_y: None
+                                height: 80
+                                Label:
+                                    text: "ADRESSE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:clientAdresse
+                                    hint_text: "Adresse"
+                                    icon_right:"map-marker"
+                                    mode: "round"
+                                    multiline:False
+                                Label:
+                                    text: "TELEPHONE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:clientTel
+                                    hint_text: "Telephone"
+                                    icon_right:"phone"
+                                    mode: "round"
+                                    multiline:False
+                                Label:
+                                    text: "EMAIL"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:clientEmail
+                                    hint_text: "Email"
+                                    icon_right:"email"
+                                    mode: "round"
+                                    multiline:False
+                                Label:
+                                    text: "NUMERO DE PERMIS"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:clientPermis
+                                    hint_text: "Numéro de permis"
+                                    icon_right:"account"
+                                    mode: "round"
+                                    multiline:False
+                                Label:
+                                    text: "DATE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:clientDateAjout
+                                    hint_text: "AAAA-MM-JJ"
+                                    mode: "round"
+                                    multiline:False
+                                RelativeLayout:
+                                    size_hint : (0.5, 1.0)
+                                    MDIconButton:
+                                        icon: "calendar"
+                                        ripple_scale: .5
+                                        pos: clientDateAjout.width - self.width + dp(3), 4
+                                        on_press:root.client_dateAjout()
+                    BoxLayout:
+                        orientation:'horizontal'
+                        padding:200,100,200,50
+                        spacing:90
+                        AnnulerButton:
+                            id:btnAnnuler
+                            text:"Annuler"
+                            bold:True
+                            size_hint:(.3,.1)
+                            on_release:root.accueil_screen(self)
+                        SmoothValidButton:
+                            id:btnValider
+                            text:"Valider"
+                            bold:True
+                            size_hint:(.3,.1)
+                            on_release:root.ajouterClient()
+                Screen:
+                    id:clt
+                    name:'client'
+                    BoxLayout:
+                        pos_hint: {'center_y': 0.954, 'center_x': 0.48}
+                        size_hint: 0.4, 0.09
+                        canvas:
+                            Color:
+                                rgb: C('#163586')
+                            Rectangle:
+                                size: self.size
+                                pos: self.pos
+                        Label:
+                            text: 'Listes des clients'
+                            font_size: 30
+                            color: C('#FFFFFF')
+                    MDRoundFlatButton:
+                        text: 'Modifier'
+                        font_size: 20
+                        text_color: 0,0,0
+                        md_bg_color: "#5C9AAD"
+                        line_color: "#5C9AAD"
+                        background_normal:''
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.87}
+                        size_hint: 0.2, 0.02
+                    MDRoundFlatButton:
+                        text: 'Rehercher'
+                        font_size: 20
+                        text_color: 0,0,0
+                        md_bg_color: "#D6D6D6"
+                        line_color: "#D6D6D6"
+                        background_normal:''
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.57}
+                        size_hint: 0.2, 0.02
+                    MDTextField:
+                        id:rechercheVente
+                        hint_text: "Taper ici pour rechercher"
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.2}
+                        mode: "round"
+                        multiline:False
+                        size_hint: 0.4, 0.06
+                        icon_left:"magnify"
+                        line_color_focus: 0,0,0
+                        text_color_focus: 0,0,0
+                Screen:
+                    id:personnel
+                    name:'Ajouter_Personnel'
+                    BoxLayout:
+                        pos_hint: {'center_y': 0.954, 'center_x': 0.48}
+                        size_hint: 0.4, 0.09
+                        canvas:
+                            Color:
+                                rgb: C('#163586')
+                            Rectangle:
+                                size: self.size
+                                pos: self.pos
+                        Label:
+                            text: 'Ajouter un personnel'
+                            font_size: 30
+                            color: C('#FFFFFF')
+                    FloatLayout:
+                        orientation:'vertical'
+                        size_hint_y:.3
+                        BoxLayout:
+                            orientation:"horizontal"
+                            spacing: 30
+                            padding:50,100,100,120
+                            BoxLayout:
+                                orientation:"vertical"
+                                spacing: 10
+                                padding:10
+                                size_hint_y: None
+                                height: 80
+                                Label:
+                                    text: "PRENOM"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:prenomPersonnel
+                                    hint_text: "Prenom"
+                                    multiline:False
+                                    mode: "round"
+                                    icon_right:"account"
+                                Label:
+                                    text: "NOM"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:nomPersonnel
+                                    hint_text: "Nom"
+                                    multiline:False
+                                    mode: "round"
+                                    icon_right:"account"
+                                Label:
+                                    text: "SEXE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:sexePersonnel
+                                    hint_text: "sexe"
+                                    multiline:False
+                                    mode: "round"
+                                    icon_right:"account"
+                                    on_focus:root.sex_perso()
+                                Label:
+                                    text: "FONCTION"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:foncPersonnel
+                                    hint_text: "Fonction"
+                                    multiline:False
+                                    mode: "round"
+                                    icon_right:"account"
+                                    on_focus:root.fonc_perso()
+                                Label:
+                                    text: "DATE DE NAISSANCE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:personnelDateNaissance
+                                    hint_text: "AAAA-MM-JJ"
+                                    mode: "round"
+                                    multiline:False
+                                RelativeLayout:
+                                    size_hint : (0.5, 1.0)
+                                    MDIconButton:
+                                        icon: "calendar"
+                                        ripple_scale: .5
+                                        pos: personnelDateNaissance.width - self.width + dp(3), 4
+                                        on_press:root.personnel_dateNaissance()
+
+                            BoxLayout:
+                                orientation:"vertical"
+                                spacing: 10
+                                padding:10
+                                size_hint_y: None
+                                height: 80
+                                Label:
+                                    text: "ADRESSE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:personnelAdresse
+                                    hint_text: "Adresse"
+                                    icon_right:"map-marker"
+                                    mode: "round"
+                                    multiline:False
+                                Label:
+                                    text: "TELEPHONE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:personnelTel
+                                    hint_text: "Telephone"
+                                    icon_right:"phone"
+                                    mode: "round"
+                                    multiline:False
+                                Label:
+                                    text: "EMAIL"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:personnelEmail
+                                    hint_text: "Email"
+                                    icon_right:"email"
+                                    mode: "round"
+                                    multiline:False
+                                Label:
+                                    text: "NUMERO DE PERMIS"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:personnelPermis
+                                    hint_text: "Numéro de permis"
+                                    icon_right:"account"
+                                    mode: "round"
+                                    multiline:False
+                                Label:
+                                    text: "DATE D'EMBAUCHE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:dateEmbauche
+                                    hint_text: "AAAA-MM-JJ"
+                                    mode: "round"
+                                    multiline:False
+                                RelativeLayout:
+                                    size_hint : (0.5, 1.0)
+                                    MDIconButton:
+                                        icon: "calendar"
+                                        ripple_scale: .5
+                                        pos: dateEmbauche.width - self.width + dp(3), 4
+                                        on_press:root.personnel_dateEmbauche()
+                    BoxLayout:
+                        orientation:'horizontal'
+                        padding:200,100,200,50
+                        spacing:90
+                        AnnulerButton:
+                            id:btnAnnuler
+                            text:"Annuler"
+                            bold:True
+                            size_hint:(.3,.1)
+                            on_release:root.accueil_screen(self)
+                        SmoothValidButton:
+                            id:btnValider
+                            text:"Valider"
+                            bold:True
+                            size_hint:(.3,.1)
+                            on_release:root.ajouterPerso()
+                Screen:
+                    id:person
+                    name:'personnel'
+                    BoxLayout:
+                        pos_hint: {'center_y': 0.954, 'center_x': 0.48}
+                        size_hint: 0.4, 0.09
+                        canvas:
+                            Color:
+                                rgb: C('#163586')
+                            Rectangle:
+                                size: self.size
+                                pos: self.pos
+                        Label:
+                            text: 'Listes des personnels'
+                            font_size: 30
+                            color: C('#FFFFFF')
+                    MDRoundFlatButton:
+                        text: 'Modifier'
+                        font_size: 20
+                        text_color: 0,0,0
+                        md_bg_color: "#5C9AAD"
+                        line_color: "#5C9AAD"
+                        background_normal:''
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.87}
+                        size_hint: 0.2, 0.02
+                    MDRoundFlatButton:
+                        text: 'Rehercher'
+                        font_size: 20
+                        text_color: 0,0,0
+                        md_bg_color: "#D6D6D6"
+                        line_color: "#D6D6D6"
+                        background_normal:''
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.57}
+                        size_hint: 0.2, 0.02
+                    MDTextField:
+                        id:rechercheVente
+                        hint_text: "Taper ici pour rechercher"
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.2}
+                        mode: "round"
+                        multiline:False
+                        size_hint: 0.4, 0.06
+                        icon_left:"magnify"
+                        line_color_focus: 0,0,0
+                        text_color_focus: 0,0,0
+                Screen:
+                    id:entretien
+                    name:'Ajouter_Entretien'
+
+                    BoxLayout:
+                        pos_hint: {'center_y': 0.954, 'center_x': 0.48}
+                        size_hint: 0.4, 0.09
+                        canvas:
+                            Color:
+                                rgb: C('#163586')
+                            Rectangle:
+                                size: self.size
+                                pos: self.pos
+                        Label:
+                            text: 'Ajouter un entretien'
+                            font_size: 30
+                            color: C('#FFFFFF')
+                    FloatLayout:
+                        orientation:'vertical'
+                        size_hint_y:.3
+                        BoxLayout:
+                            orientation:"horizontal"
+                            spacing: 30
+                            padding:50,100,100,180
+                            BoxLayout:
+                                orientation:"vertical"
+                                spacing: 12
+                                padding:10
+                                size_hint_y: None
+                                height: 80
+                                Label:
+                                    text: "VEHICULE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:vehiculeEntretien
+                                    hint_text: "selectionner"
+                                    multiline:False
+                                    mode: "round"
+                                    icon_right:"car"
+                                Label:
+                                    text: "TYPE D'ENTRETIEN"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:type_entretien
+                                    hint_text: "Type"
+                                    multiline:False
+                                    mode: "round"
+                                    icon_right:"wrench"
+                                Label:
+                                    text: "DEBUT"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:debutEntretien
+                                    hint_text: "AAAA-MM-JJ"
+                                    mode: "round"
+                                    multiline:False
+                                RelativeLayout:
+                                    size_hint : (0.5, 1.0)
+                                    MDIconButton:
+                                        icon: "calendar"
+                                        ripple_scale: .5
+                                        pos: debutEntretien.width - self.width + dp(3), 4
+                                        on_press:root.debut_entretien()
+
+                            BoxLayout:
+                                orientation:"vertical"
+                                spacing: 10
+                                padding:10
+                                size_hint_y: None
+                                height: 80
+                                Label:
+                                    text: "FIN"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:finEntretien
+                                    hint_text: "AAAA-MM-JJ"
+                                    mode: "round"
+                                    multiline:False
+                                RelativeLayout:
+                                    size_hint : (0.5, 1.0)
+                                    MDIconButton:
+                                        icon: "calendar"
+                                        ripple_scale: .5
+                                        pos: finEntretien.width - self.width + dp(3), 4
+                                        on_press:root.debut_entretien()
+                                Label:
+                                    text: "SOMME"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:sommeEntretien
+                                    hint_text: "Somme"
+                                    icon_right:"cash"
+                                    mode: "round"
+                                    multiline:False
+                                Label:
+                                    text: "DATE PAIEMENT"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:paiementEntretien
+                                    hint_text: "AAAA-MM-JJ"
+                                    mode: "round"
+                                    multiline:False
+                                RelativeLayout:
+                                    size_hint : (0.5, 1.0)
+                                    MDIconButton:
+                                        icon: "calendar"
+                                        ripple_scale: .5
+                                        pos: paiementEntretien.width - self.width + dp(3), 4
+                                        on_press:root.payement_entretien()
+                    BoxLayout:
+                        orientation:'horizontal'
+                        padding:200,100,200,50
+                        spacing:90
+                        AnnulerButton:
+                            id:btnAnnuler
+                            text:"Annuler"
+                            bold:True
+                            size_hint:(.3,.1)
+                            on_release:root.accueil_screen(self)
+                        SmoothValidButton:
+                            id:btnValider
+                            text:"Valider"
+                            bold:True
+                            size_hint:(.3,.1)
+                            on_release:root.ajouterEntretien()
+                Screen:
+                    id:entre
+                    name:'entretien'
+                    BoxLayout:
+                        pos_hint: {'center_y': 0.954, 'center_x': 0.48}
+                        size_hint: 0.4, 0.09
+                        canvas:
+                            Color:
+                                rgb: C('#163586')
+                            Rectangle:
+                                size: self.size
+                                pos: self.pos
+                        Label:
+                            text: 'Listes des entretiens'
+                            font_size: 30
+                            color: C('#FFFFFF')
+                    MDRoundFlatButton:
+                        text: 'Modifier'
+                        font_size: 20
+                        text_color: 0,0,0
+                        md_bg_color: "#5C9AAD"
+                        line_color: "#5C9AAD"
+                        background_normal:''
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.87}
+                        size_hint: 0.2, 0.02
+                    MDRoundFlatButton:
+                        text: 'Rehercher'
+                        font_size: 20
+                        text_color: 0,0,0
+                        md_bg_color: "#D6D6D6"
+                        line_color: "#D6D6D6"
+                        background_normal:''
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.57}
+                        size_hint: 0.2, 0.02
+                    MDTextField:
+                        id:rechercheVente
+                        hint_text: "Taper ici pour rechercher"
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.2}
+                        mode: "round"
+                        multiline:False
+                        size_hint: 0.4, 0.06
+                        icon_left:"magnify"
+                        line_color_focus: 0,0,0
+                        text_color_focus: 0,0,0
+                Screen:
+                    id:fournisseur
+                    name:'Ajouter_Fournisseur'
+
+                    BoxLayout:
+                        pos_hint: {'center_y': 0.954, 'center_x': 0.48}
+                        size_hint: 0.4, 0.09
+                        canvas:
+                            Color:
+                                rgb: C('#163586')
+                            Rectangle:
+                                size: self.size
+                                pos: self.pos
+                        Label:
+                            text: 'Ajouter un fournisseur'
+                            font_size: 30
+                            color: C('#FFFFFF')
+                    FloatLayout:
+                        orientation:'vertical'
+                        size_hint_y:.3
+                        BoxLayout:
+                            orientation:"horizontal"
+                            spacing: 30
+                            padding:50,100,100,180
+                            BoxLayout:
+                                orientation:"vertical"
+                                spacing: 12
+                                padding:10
+                                size_hint_y: None
+                                height: 80
+                                Label:
+                                    text: "NOM ENTREPRISE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:nomEntreprise
+                                    hint_text: "Nom de l'entreprise"
+                                    multiline:False
+                                    mode: "round"
+                                    icon_right:"home-city"
+                                Label:
+                                    text: "EMAIL ENTREPRISE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:entrepriseEmail
+                                    hint_text: "Email entreprise"
+                                    multiline:False
+                                    mode: "round"
+                                    icon_right:"email"
+                                Label:
+                                    text: "ADRESSE ENTREPRISE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:adresseEntreprise
+                                    hint_text: "Adresse"
+                                    mode: "round"
+                                    multiline:False
+                                    icon_right:"map-marker"
+
+                            BoxLayout:
+                                orientation:"vertical"
+                                spacing: 10
+                                padding:10
+                                size_hint_y: None
+                                height: 80
+                                Label:
+                                    text: "NUMERO ENTREPRISE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:numEntreprise
+                                    hint_text: "Numero"
+                                    mode: "round"
+                                    multiline:False
+                                    icon_right:"phone"
+                                Label:
+                                    text: "PAYS"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:pays
+                                    hint_text: "Pays"
+                                    mode: "round"
+                                    multiline:False
+                                    icon_right:"city-variant"
+                                Label:
+                                    text: "DATE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:dte
+                                    hint_text: "AAAA-MM-JJ"
+                                    mode: "round"
+                                    multiline:False
+                                RelativeLayout:
+                                    size_hint : (0.5, 1.0)
+                                    MDIconButton:
+                                        icon: "calendar"
+                                        ripple_scale: .5
+                                        pos: dte.width - self.width + dp(3), 4
+                                        on_press:root.date_founisseur()
+                    BoxLayout:
+                        orientation:'horizontal'
+                        padding:200,100,200,50
+                        spacing:90
+                        AnnulerButton:
+                            id:btnAnnuler
+                            text:"Annuler"
+                            bold:True
+                            size_hint:(.3,.1)
+                            on_release:root.accueil_screen(self)
+                        SmoothValidButton:
+                            id:btnValider
+                            text:"Valider"
+                            bold:True
+                            size_hint:(.3,.1)
+                            on_release:root.ajouterFournisseur()
+                Screen:
+                    id:four
+                    name:'fournisseur'
+
+                    BoxLayout:
+                        pos_hint: {'center_y': 0.954, 'center_x': 0.48}
+                        size_hint: 0.4, 0.09
+                        canvas:
+                            Color:
+                                rgb: C('#163586')
+                            Rectangle:
+                                size: self.size
+                                pos: self.pos
+                        Label:
+                            text: 'Liste des fournisseurs'
+                            font_size: 30
+                            color: C('#FFFFFF')
+                    MDRoundFlatButton:
+                        text: 'Modifier'
+                        font_size: 20
+                        text_color: 0,0,0
+                        md_bg_color: "#5C9AAD"
+                        line_color: "#5C9AAD"
+                        background_normal:''
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.87}
+                        size_hint: 0.2, 0.02
+                    MDRoundFlatButton:
+                        text: 'Rehercher'
+                        font_size: 20
+                        text_color: 0,0,0
+                        md_bg_color: "#D6D6D6"
+                        line_color: "#D6D6D6"
+                        background_normal:''
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.57}
+                        size_hint: 0.2, 0.02
+                    MDTextField:
+                        id:rechercheVente
+                        hint_text: "Taper ici pour rechercher"
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.2}
+                        mode: "round"
+                        multiline:False
+                        size_hint: 0.4, 0.06
+                        icon_left:"magnify"
+                        line_color_focus: 0,0,0
+                        text_color_focus: 0,0,0
+                Screen:
+                    id:approvisionnement
+                    name:'Ajouter_approvisionnement'
+                    BoxLayout:
+                        pos_hint: {'center_y': 0.954, 'center_x': 0.48}
+                        size_hint: 0.4, 0.09
+                        canvas:
+                            Color:
+                                rgb: C('#163586')
+                            Rectangle:
+                                size: self.size
+                                pos: self.pos
+                        Label:
+                            text: 'Ajouter un Approvisionnement'
+                            font_size: 30
+                            color: C('#FFFFFF')
+                    FloatLayout:
+                        orientation:'vertical'
+                        size_hint_y:.3
+                        BoxLayout:
+                            orientation:"horizontal"
+                            spacing: 30
+                            padding:50,100,100,180
+                            BoxLayout:
+                                orientation:"vertical"
+                                spacing: 12
+                                padding:10
+                                size_hint_y: None
+                                height: 80
+                                Label:
+                                    text: "FOURNISSEUR"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:fourAppro
+                                    hint_text: "Selectionner"
+                                    multiline:False
+                                    mode: "round"
+                                    icon_right:"home-city"
+                                Label:
+                                    text: "NOMBRE VEHICULE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:nbrVehicule
+                                    hint_text: "Nombre vehicule"
+                                    multiline:False
+                                    mode: "round"
+                                    icon_right:"tanker-truck"
+                                Label:
+                                    text: "DATE DE COMMANDE"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:dateCommande
+                                    hint_text: "AAAA-MM-JJ"
+                                    mode: "round"
+                                    multiline:False
+                                RelativeLayout:
+                                    size_hint : (0.5, 1.0)
+                                    MDIconButton:
+                                        icon: "calendar"
+                                        ripple_scale: .5
+                                        pos: dateCommande.width - self.width + dp(3), 4
+                                        on_press:root.date_commande()
+
+                            BoxLayout:
+                                orientation:"vertical"
+                                spacing: 10
+                                padding:10
+                                size_hint_y: None
+                                height: 80
+                                Label:
+                                    text: "DATE DE LIVRAISON"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:dateLivraison
+                                    hint_text: "AAAA-MM-JJ"
+                                    mode: "round"
+                                    multiline:False
+                                RelativeLayout:
+                                    size_hint : (0.5, 1.0)
+                                    MDIconButton:
+                                        icon: "calendar"
+                                        ripple_scale: .5
+                                        pos: dateLivraison.width - self.width + dp(3), 4
+                                        on_press:root.date_livraison()
+                                Label:
+                                    text: "SOMME"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:sommeAppro
+                                    hint_text: "Somme"
+                                    mode: "round"
+                                    multiline:False
+                                    icon_right:"cash"
+                                Label:
+                                    text: "DATE PAIEMENT"
+                                    bold: True
+                                    color:C('#000000')
+                                MDTextField:
+                                    id:date_payeAppro
+                                    hint_text: "AAAA-MM-JJ"
+                                    mode: "round"
+                                    multiline:False
+                                RelativeLayout:
+                                    size_hint : (0.5, 1.0)
+                                    MDIconButton:
+                                        icon: "calendar"
+                                        ripple_scale: .5
+                                        pos: date_payeAppro.width - self.width + dp(3), 4
+                                        on_press:root.date_paie()
+                    BoxLayout:
+                        orientation:'horizontal'
+                        padding:200,100,200,50
+                        spacing:90
+                        AnnulerButton:
+                            id:btnAnnuler
+                            text:"Annuler"
+                            bold:True
+                            size_hint:(.3,.1)
+                            on_release:root.accueil_screen(self)
+                        SmoothValidButton:
+                            id:btnValider
+                            text:"Valider"
+                            bold:True
+                            size_hint:(.3,.1)
+                            on_release:root.ajouterAppro()
+                Screen:
+                    id:appro
+                    name:'approvisionnement'
+
+                    BoxLayout:
+                        pos_hint: {'center_y': 0.954, 'center_x': 0.48}
+                        size_hint: 0.4, 0.09
+                        canvas:
+                            Color:
+                                rgb: C('#163586')
+                            Rectangle:
+                                size: self.size
+                                pos: self.pos
+                        Label:
+                            text: 'Liste approvisionnement'
+                            font_size: 30
+                            color: C('#FFFFFF')
+                    MDRoundFlatButton:
+                        text: 'Modifier'
+                        font_size: 20
+                        text_color: 0,0,0
+                        md_bg_color: "#5C9AAD"
+                        line_color: "#5C9AAD"
+                        background_normal:''
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.87}
+                        size_hint: 0.2, 0.02
+                    MDRoundFlatButton:
+                        text: 'Rehercher'
+                        font_size: 20
+                        text_color: 0,0,0
+                        md_bg_color: "#D6D6D6"
+                        line_color: "#D6D6D6"
+                        background_normal:''
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.57}
+                        size_hint: 0.2, 0.02
+                    MDTextField:
+                        id:rechercheVente
+                        hint_text: "Taper ici pour rechercher"
+                        pos_hint: {'center_y': 0.860, 'center_x': 0.2}
+                        mode: "round"
+                        multiline:False
+                        size_hint: 0.4, 0.06
+                        icon_left:"magnify"
+                        line_color_focus: 0,0,0
+                        text_color_focus: 0,0,0
+        BoxLayout:
+            size_hint_y: None
+            height:20
+            canvas.before:
+                Color:
+                    rgba: C('#163586')
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Label:
+                text: "Copyrigth@ tout droit reservé"
+                bold: True
+                size_hint_x: .9
+
+
+<RoundedLayout@BoxLayout>:
+    border_radius: [10]
+    canvas.before:
+        RoundedRectangle:
+            pos:self.pos
+            size:self.size
+            #radius:self.border_radius
+<SmoothButton@Button>:
+    background_color:(0,0,0,0)
+    background_normal:''
+    border_radius: [10]
+    canvas.before:
+        Color:
+            rgba: C('#FFFFFF')
+        RoundedRectangle:
+            size:self.size
+            pos:self.pos
+            #radius:self.border_radius
+
+<deconnect@Button>:
+    background_color:(0,0,0,0)
+    background_normal:''
+    border_radius: [10]
+    canvas.before:
+        Color:
+            rgba: C('#5887FF')
+        RoundedRectangle:
+            size:self.size
+            pos:self.pos
+            #radius:self.border_radius
