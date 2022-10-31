@@ -58,10 +58,10 @@ Principal:
                 height: 80
                 MDTextField:
                     id:username
-                    hint_text: "Nom d'utilisateur"
+                    hint_text: "Email"
                     multiline:False
                     mode: "fill"
-                    icon_right:"account"
+                    icon_right:"email"
                     on_text_validate: pwd.focus = True
                 MDTextField:
                     id:pwd
@@ -998,11 +998,11 @@ Principal:
                                     color:C('#000000')
                                 MDTextField:
                                     id:type
-                                    hint_text: "Type"
+                                    hint_text: "Selectionner"
                                     icon_right:"car"
                                     mode: "round"
                                     multiline:False
-                                    on_focus:root.type_liste()
+                                    on_focus:if self.focus: root.type_liste()
 
                                 Label:
                                     text: "ETAT"
@@ -1010,11 +1010,11 @@ Principal:
                                     color:C('#000000')
                                 MDTextField:
                                     id:etat
-                                    hint_text: "Etat"
+                                    hint_text: "Selectionner"
                                     icon_right:"car"
                                     mode: "round"
                                     multiline:False
-                                    on_focus:root.etat_liste()
+                                    on_focus:if self.focus:root.etat_liste()
                             BoxLayout:
                                 orientation:"vertical"
                                 spacing: 10
@@ -1171,11 +1171,12 @@ Principal:
                                     bold: True
                                     color:C('#000000')
                                 MDTextField:
-                                    id:client
-                                    hint_text: "Client"
+                                    id:locaClient
+                                    hint_text: "Selectionner"
                                     multiline:False
                                     mode: "round"
                                     icon_right:"account"
+                                    on_focus:if self.focus:root.clientLoca()
                                 Label:
                                     text: "LIEU DE LIVRAISON"
                                     bold: True
@@ -1193,17 +1194,17 @@ Principal:
                                     color:C('#000000')
                                 MDTextField:
                                     id:vehiculeLoca
-                                    hint_text: "Vehicule"
+                                    hint_text: "Selectionner"
                                     icon_right:"car"
                                     mode: "round"
                                     multiline:False
-                                    on_focus:root.type_liste()
+                                    on_focus:if self.focus:root.VehiculeLoca()
                                 Label:
                                     text: "DATE LIVRAISON"
                                     bold: True
                                     color:C('#000000')
                                 MDTextField:
-                                    id:dateLivraison
+                                    id:dateLivr
                                     hint_text: "AAAA-MM-JJ"
                                     mode: "round"
                                     multiline:False
@@ -1212,7 +1213,7 @@ Principal:
                                     MDIconButton:
                                         icon: "calendar"
                                         ripple_scale: .5
-                                        pos: dateLivraison.width - self.width + dp(3), 4
+                                        pos: dateLivr.width - self.width + dp(3), 4
                                         on_press:root.dateLivraison()
 
                             BoxLayout:
@@ -1368,21 +1369,22 @@ Principal:
                                     color:C('#000000')
                                 MDTextField:
                                     id:client_vente
-                                    hint_text: "Client"
+                                    hint_text: "Selectionner"
                                     multiline:False
                                     mode: "round"
                                     icon_right:"account"
+                                    on_focus:if self.focus:root.clientVente()
                                 Label:
                                     text: "VEHICULE"
                                     bold: True
                                     color:C('#000000')
                                 MDTextField:
                                     id:vehiculeVente
-                                    hint_text: "Vehicule"
+                                    hint_text: "Selectionner"
                                     icon_right:"car"
                                     mode: "round"
                                     multiline:False
-                                    on_focus:root.type_liste()
+                                    on_focus:if self.focus:root.VehiculeVente()
                                 Label:
                                     text: "DATE VENTE"
                                     bold: True
@@ -1557,11 +1559,11 @@ Principal:
                                     color:C('#000000')
                                 MDTextField:
                                     id:sexeClient
-                                    hint_text: "sexe"
+                                    hint_text: "Selectionner"
                                     multiline:False
                                     mode: "round"
                                     icon_right:"account"
-                                    on_focus:root.sex_client()
+                                    on_focus:if self.focus:root.sex_client()
                                 Label:
                                     text: "NATIONALITE"
                                     bold: True
@@ -1702,7 +1704,7 @@ Principal:
                         pos_hint: {'center_y': 0.860, 'center_x': 0.57}
                         size_hint: 0.2, 0.02
                     MDTextField:
-                        id:rechercheVente
+                        id:rechercheClient
                         hint_text: "Taper ici pour rechercher"
                         pos_hint: {'center_y': 0.860, 'center_x': 0.2}
                         mode: "round"
@@ -1766,22 +1768,22 @@ Principal:
                                     color:C('#000000')
                                 MDTextField:
                                     id:sexePersonnel
-                                    hint_text: "sexe"
+                                    hint_text: "Selectionner"
                                     multiline:False
                                     mode: "round"
                                     icon_right:"account"
-                                    on_focus:root.sex_perso()
+                                    on_focus:if self.focus:root.sex_perso()
                                 Label:
                                     text: "FONCTION"
                                     bold: True
                                     color:C('#000000')
                                 MDTextField:
                                     id:foncPersonnel
-                                    hint_text: "Fonction"
+                                    hint_text: "Selectionner"
                                     multiline:False
                                     mode: "round"
                                     icon_right:"account"
-                                    on_focus:root.fonc_perso()
+                                    on_focus:if self.focus:root.fonc_perso()
                                 Label:
                                     text: "DATE DE NAISSANCE"
                                     bold: True
@@ -1912,7 +1914,7 @@ Principal:
                         pos_hint: {'center_y': 0.860, 'center_x': 0.57}
                         size_hint: 0.2, 0.02
                     MDTextField:
-                        id:rechercheVente
+                        id:recherchePersonnel
                         hint_text: "Taper ici pour rechercher"
                         pos_hint: {'center_y': 0.860, 'center_x': 0.2}
                         mode: "round"
@@ -1961,6 +1963,7 @@ Principal:
                                     multiline:False
                                     mode: "round"
                                     icon_right:"car"
+                                    on_focus:if self.focus:root.VehiculeEntre()
                                 Label:
                                     text: "TYPE D'ENTRETIEN"
                                     bold: True
@@ -2299,6 +2302,7 @@ Principal:
                                     multiline:False
                                     mode: "round"
                                     icon_right:"home-city"
+                                    on_focus:if self.focus:root.FournisseurAppro()
                                 Label:
                                     text: "NOMBRE VEHICULE"
                                     bold: True

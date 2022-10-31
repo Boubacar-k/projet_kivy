@@ -1,3 +1,5 @@
+import pickle
+
 from kivy.clock import Clock
 from kivy.lang.builder import Builder
 from kivy.uix.button import Button
@@ -11,6 +13,8 @@ from kivymd.material_resources import dp
 from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.pickers import MDDatePicker
+from kivy.uix.popup import Popup
+import mysql.connector
 
 
 class SeConnecter(Screen):
@@ -24,12 +28,27 @@ class SeConnecter(Screen):
         passw = pwd.text
 
         layout = GridLayout(cols=1, padding=10)
+        layout2 = GridLayout(cols=1, padding=10)
+        layout3 = GridLayout(cols=1, padding=10)
+        layout4 = GridLayout(cols=1, padding=10)
 
         lbl = Label(text='Aucun champ ne doit être vide !',color="#000000")
+        lbl2 = Label(text='Connecter avec succès', color="#000000")
+        lbl3 = Label(text="Email ou mot de passe incorrect", color="#000000")
+        lbl4 = Label(text='Problème de connexion', color="#000000")
         btn = Button(text='OK', size_hint=(.9, None), size=(200, 50),background_color="#5887FF")
+        btn2 = Button(text='OK', size_hint=(.9, None), size=(200, 50), background_color="#5887FF")
+        btn3 = Button(text='OK', size_hint=(.9, None), size=(200, 50), background_color="#5887FF")
+        btn4 = Button(text='OK', size_hint=(.9, None), size=(200, 50), background_color="#5887FF")
 
         layout.add_widget(lbl)
         layout.add_widget(btn)
+        layout2.add_widget(lbl2)
+        layout2.add_widget(btn2)
+        layout3.add_widget(lbl3)
+        layout3.add_widget(btn3)
+        layout4.add_widget(lbl4)
+        layout4.add_widget(btn4)
 
         if (username == "" or passw == ""):
 
@@ -39,15 +58,47 @@ class SeConnecter(Screen):
             btn.bind(on_press=popup.dismiss)
             popup.open()
         else:
+            try:
+                sql = "SELECT * FROM personnel WHERE email =%s AND mot_de_passe =%s"
+                valeur = (username, passw)
+                con = mysql.connector.connect(host="localhost", user="root", password="", database='ParcAuto')
+                curser = con.cursor()
+                curser.execute(sql, valeur)
+                resultat = curser.fetchall()
+                if resultat:
+                    popup = Popup(title='INFO!', content=layout2,
+                                  size_hint=(None, None), size=(300, 200),
+                                  auto_dismiss=False, background="#FFFFFF", title_color="#000000",
+                                  separator_color="#163586")
+                    btn2.bind(on_press=popup.dismiss)
+                    popup.open()
+                    res = resultat
+                    with open("test.pickle", "wb") as outfile:
+                        pickle.dump(res, outfile)
+                    outfile.close()
+                    self.parent.current = "accl"
+                else:
+                    popup = Popup(title='Erreur!', content=layout3,
+                                  size_hint=(None, None), size=(300, 200),
+                                  auto_dismiss=False, background="#FFFFFF", title_color="#000000",
+                                  separator_color="#163586")
+                    btn3.bind(on_press=popup.dismiss)
+                    popup.open()
+            except:
+                popup = Popup(title='Erreur!', content=layout4,
+                              size_hint=(None, None), size=(300, 200),
+                              auto_dismiss=False, background="#FFFFFF", title_color="#000000",
+                              separator_color="#163586")
+                btn4.bind(on_press=popup.dismiss)
+                popup.open()
 
-                self.parent.current = "accl"
 
 class CreerCompte(Screen):
     def __init__(self,**kwargs):
         super(CreerCompte,self).__init__(**kwargs)
         # Fonction
     def poste(self):
-        item = ['PROPRIETAIRE', 'GERANT', 'COMPTABLE']
+        item = ['PROPRIETAIRE', 'GERANT']
         menu_items = [
             {
                 "text": f"{i}",
@@ -55,14 +106,15 @@ class CreerCompte(Screen):
                 "on_release": lambda x=f"{i}": self.menu_fonction(x),
             } for i in item
         ]
-        menu = MDDropdownMenu(
+        self.menuC = MDDropdownMenu(
             caller=self.ids.fonc,
             items=menu_items,
             width_mult=2.5,
         )
-        menu.open()
+        self.menuC.open()
     def menu_fonction(self, text_item):
         self.ids.fonc.text = text_item
+        self.menuC.dismiss()
 
     # SEXE
     def liste(self):
@@ -74,15 +126,16 @@ class CreerCompte(Screen):
                 "on_release": lambda x=f"{i}": self.menu_callback(x),
             } for i in item
         ]
-        menu = MDDropdownMenu(
+        self.menuSexe = MDDropdownMenu(
             caller=self.ids.sexe,
             items=menu_items,
             width_mult=2,
         )
-        menu.open()
+        self.menuSexe.open()
 
     def menu_callback(self, text_item):
         self.ids.sexe.text = text_item
+        self.menuSexe.dismiss()
 
     # Test
     def validate_user(self):
@@ -99,21 +152,64 @@ class CreerCompte(Screen):
         motDePasse = self.ids.txtPass.text
         confirmer = self.ids.confirm.text
         layout = GridLayout(cols=1, padding=10)
+        layout2 = GridLayout(cols=1, padding=10)
+        layout3 = GridLayout(cols=1, padding=10)
+        layout4 = GridLayout(cols=1, padding=10)
 
         lbl = Label(text='Aucun champ ne doit être vide !',color="#000000")
+        lbl2 = Label(text='le mot de passe et la confirmation\ndoivent être les mêmes', color="#000000")
+        lbl3 = Label(text="Votre mot de passe ne doit\npas être inferieur à 8 caractère", color="#000000")
+        lbl4 = Label(text='compte créé avec succès ', color="#000000")
         btn = Button(text='OK', size_hint=(.9, None), size=(200, 50),background_color="#5887FF")
+        btn2 = Button(text='OK', size_hint=(.9, None), size=(200, 50), background_color="#5887FF")
+        btn3 = Button(text='OK', size_hint=(.9, None), size=(200, 50), background_color="#5887FF")
+        btn4 = Button(text='OK', size_hint=(.9, None), size=(200, 50), background_color="#5887FF")
 
         layout.add_widget(lbl)
         layout.add_widget(btn)
+        layout2.add_widget(lbl2)
+        layout2.add_widget(btn2)
+        layout3.add_widget(lbl3)
+        layout3.add_widget(btn3)
+        layout4.add_widget(lbl4)
+        layout4.add_widget(btn4)
 
         if (prenom == "" or nom == "" or dateNaissance == "" or sexe == "" or email == "" or fonction == ""
                 or dateInsertion == "" or telephone == "" or nationalite == "" or adresse == "" or motDePasse == "" or confirmer == ""):
-            from kivy.uix.popup import Popup
+
             popup = Popup(title='Erreur!', content=layout,
                           size_hint=(None, None), size=(300, 200),
                           auto_dismiss=False, background="#FFFFFF", title_color="#000000", separator_color="#163586")
             btn.bind(on_press=popup.dismiss)
             popup.open()
+        elif (motDePasse != confirmer):
+            popup = Popup(title='Erreur!', content=layout2,
+                          size_hint=(None, None), size=(300, 200),
+                          auto_dismiss=False, background="#FFFFFF", title_color="#000000", separator_color="#163586")
+            btn2.bind(on_press=popup.dismiss)
+            popup.open()
+        elif (len(motDePasse) < 8):
+            popup = Popup(title='Erreur!', content=layout3,
+                          size_hint=(None, None), size=(300, 200),
+                          auto_dismiss=False, background="#FFFFFF", title_color="#000000", separator_color="#163586")
+            btn3.bind(on_press=popup.dismiss)
+            popup.open()
+        else:
+            sql = "INSERT INTO personnel(prenom,nom,dateNaissance,sexe,email,fonction,dateIns,telephone," \
+                  "nationalite,adresse,mot_de_passe,Confirmer)" \
+                  " VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) "
+            valeur = (prenom, nom, dateNaissance, sexe, email, fonction, dateInsertion, telephone, nationalite, adresse, motDePasse,confirmer)
+            maBase = mysql.connector.connect(host="localhost", user="root", password="", database="ParcAuto")
+            mConnect = maBase.cursor()
+            mConnect.execute(sql, valeur)
+            maBase.commit()
+            popup = Popup(title='Succès !', content=layout4,
+                          size_hint=(None, None), size=(300, 200),
+                          auto_dismiss=False, background="#FFFFFF", title_color="#000000", separator_color="#163586")
+            btn4.bind(on_press=popup.dismiss)
+            popup.open()
+            self.parent.current = "connect"
+            maBase.close()
 
     # Date Insertion
     def on_save(self, instance, value, date_range):
@@ -148,6 +244,7 @@ class Accueil(Screen):
     def __init__(self,**kwargs):
         super(Accueil,self).__init__(**kwargs)
         Clock.schedule_once(self.tab)
+        i = list(self.listeVehicule())
         #VEHICULE TABLE
         self.data_tables = MDDataTable(
             pos_hint={'center_x': 0.50, 'center_y': 0.500},
@@ -171,12 +268,8 @@ class Accueil(Screen):
                 ("Kilometrage", dp(25)),
             ],
 
-            row_data=[
-                (1,"Diesel","Luxe","Parc","2022-08-15","Toyota","4","5","bleu","2022-10-20","3000000","800km")
-                #for i in range(50)
-            ],
+            row_data=i,
         )
-
         #LOCATION TABLE
 
         self.table = MDDataTable(
@@ -395,6 +488,16 @@ class Accueil(Screen):
         self.tableAppro.bind(on_row_press=self.row_checked)
 
         #content = self.ids.accueil
+
+    #liste des vehicules
+    def listeVehicule(self):
+        con = mysql.connector.connect(host="localhost", user="root", password="", database="ParcAuto")
+        cursor = con.cursor()
+        cursor.execute( "SELECT immatriculation,moteur,typeVehicule,etat,dateCirculation,marque,porte,place,couleur,dateInsertion,prix,kilometrage FROM vehicule")
+        element = cursor.fetchall()
+        print(element)
+        return element
+        con.close()
     # ECRAN ACCUEIL
     def change_screen(self, instance):
         self.ids.manager.current = "Vehicule"
@@ -707,7 +810,7 @@ class Accueil(Screen):
 
  #--------------------------------------------------------COMBOX--------------------------------------------------------
     def type_liste(self):
-        item = ['LUXE', 'SPORT']
+        item = ['LUXE', 'SPORT','FAMILIALE']
         menu_items = [
             {
                 "text": f"{i}",
@@ -715,12 +818,12 @@ class Accueil(Screen):
                 "on_release": lambda x=f"{i}": self.menu_callback(x),
             } for i in item
         ]
-        menu = MDDropdownMenu(
+        self.menu = MDDropdownMenu(
             caller=self.ids.type,
             items=menu_items,
             width_mult=2,
         )
-        menu.open()
+        self.menu.open()
     def etat_liste(self):
         item = ['PARC', 'LOCATION','ENTRETIEN']
         menu_items = [
@@ -764,12 +867,14 @@ class Accueil(Screen):
                 "on_release": lambda x=f"{i}": self.persoSexe(x),
             } for i in item
         ]
-        self.sexe = MDDropdownMenu(
+        self.sexeP = MDDropdownMenu(
             caller=self.ids.sexePersonnel,
             items=menu_items,
             width_mult=2,
         )
-        self.sexe.open()
+        self.sexeP.open()
+
+
 
     # SEXE PERSONNEL
     def fonc_perso(self):
@@ -788,6 +893,127 @@ class Accueil(Screen):
         )
         self.fonc.open()
 
+    # LISTE CLIENT
+    def clientLoca(self):
+        item = ['CHAUFFEUR', 'MECANICIEN']
+        menu_items = [
+            {
+                "text": f"{i}",
+                "viewclass": "OneLineListItem",
+                "on_release": lambda x=f"{i}": self.cltLoca(x),
+            } for i in item
+        ]
+        self.listeClientL = MDDropdownMenu(
+            caller=self.ids.locaClient,
+            items=menu_items,
+            width_mult=4,
+        )
+        self.listeClientL.open()
+
+    # LISTE VEHICULE
+    def VehiculeLoca(self):
+        item = ['V1', 'V2']
+        menu_items = [
+            {
+                "text": f"{i}",
+                "viewclass": "OneLineListItem",
+                "on_release": lambda x=f"{i}": self.vehiLoca(x),
+            } for i in item
+        ]
+        self.listeVehiL = MDDropdownMenu(
+            caller=self.ids.vehiculeLoca,
+            items=menu_items,
+            width_mult=4,
+        )
+        self.listeVehiL.open()
+
+    # LISTE CLIENT
+    def clientVente(self):
+        item = ['CHAUFFEUR', 'MECANICIEN']
+        menu_items = [
+            {
+                "text": f"{i}",
+                "viewclass": "OneLineListItem",
+                "on_release": lambda x=f"{i}": self.cltVente(x),
+            } for i in item
+        ]
+        self.listeClient = MDDropdownMenu(
+            caller=self.ids.client_vente,
+            items=menu_items,
+            width_mult=4,
+        )
+        self.listeClient.open()
+
+    # LISTE VEHICULE VENTE
+    def VehiculeVente(self):
+        item = ['V1', 'V2']
+        menu_items = [
+            {
+                "text": f"{i}",
+                "viewclass": "OneLineListItem",
+                "on_release": lambda x=f"{i}": self.vehiVente(x),
+            } for i in item
+        ]
+        self.listeVehiV = MDDropdownMenu(
+            caller=self.ids.vehiculeVente,
+            items=menu_items,
+            width_mult=4,
+        )
+        self.listeVehiV.open()
+
+    # LISTE VEHICULE ENTRETIEN
+    def VehiculeEntre(self):
+        item = ['V1', 'V2']
+        menu_items = [
+            {
+                "text": f"{i}",
+                "viewclass": "OneLineListItem",
+                "on_release": lambda x=f"{i}": self.vehiEntre(x),
+            } for i in item
+        ]
+        self.listeVehiE = MDDropdownMenu(
+            caller=self.ids.vehiculeEntretien,
+            items=menu_items,
+            width_mult=4,
+        )
+        self.listeVehiE.open()
+
+    # LISTE FOURNISSEUR
+    def FournisseurAppro(self):
+        item = ['V1', 'V2']
+        menu_items = [
+            {
+                "text": f"{i}",
+                "viewclass": "OneLineListItem",
+                "on_release": lambda x=f"{i}": self.fournisseursA(x),
+            } for i in item
+        ]
+        self.listeFourA = MDDropdownMenu(
+            caller=self.ids.fourAppro,
+            items=menu_items,
+            width_mult=4,
+        )
+        self.listeFourA.open()
+
+    def cltVente(self, text_item):
+        self.ids.client_vente.text = text_item
+        self.listeClient.dismiss()
+
+    def cltLoca(self, text_item):
+        self.ids.locaClient.text = text_item
+        self.listeClientL.dismiss()
+    def vehiLoca(self, text_item):
+        self.ids.vehiculeLoca.text = text_item
+        self.listeVehiL.dismiss()
+    def vehiVente(self, text_item):
+        self.ids.vehiculeVente.text = text_item
+        self.listeVehiV.dismiss()
+    def vehiEntre(self, text_item):
+        self.ids.vehiculeEntretien.text = text_item
+        self.listeVehiE.dismiss()
+    def fournisseursA(self, text_item):
+        self.ids.fourAppro.text = text_item
+        self.listeFourA.dismiss()
     def persoFonc(self, text_item):
         self.ids.foncPersonnel.text = text_item
         self.fonc.dismiss()
@@ -796,10 +1022,10 @@ class Accueil(Screen):
         self.sexe.dismiss()
     def persoSexe(self, text_item):
         self.ids.sexePersonnel.text = text_item
-        self.sexe.dismiss()
+        self.sexeP.dismiss()
     def menu_callback(self, text_item):
         self.ids.type.text = text_item
-        #self.menu.dismiss()
+        self.menu.dismiss()
 
     def etat_callback(self, text_item):
         self.ids.etat.text = text_item
@@ -821,26 +1047,63 @@ class Accueil(Screen):
         km = self.ids.km.text
 
         layout = GridLayout(cols=1, padding=10)
+        layout2 = GridLayout(cols=1, padding=10)
+        layout3 = GridLayout(cols=1, padding=10)
 
         lbl = Label(text='Aucun champ ne doit être vide !',color="#000000")
         btn = Button(text='OK', size_hint=(.9, None), size=(200, 50),background_color="#5887FF")
+        lbl2 = Label(text='Ajouter avec succès !', color="#000000")
+        btn2 = Button(text='OK', size_hint=(.9, None), size=(200, 50), background_color="#5887FF")
+        lbl3 = Label(text='Problême de connexion !', color="#000000")
+        btn3 = Button(text='OK', size_hint=(.9, None), size=(200, 50), background_color="#5887FF")
 
         layout.add_widget(lbl)
         layout.add_widget(btn)
+        layout2.add_widget(lbl2)
+        layout2.add_widget(btn2)
+        layout3.add_widget(lbl3)
+        layout3.add_widget(btn3)
         if (matricule == "" or moteur == "" or type == "" or etat == "" or dateCir == "" or marque == ""
                 or porte == "" or place == "" or couleur == "" or dateIns == "" or prix == "" or km == ""):
-            from kivy.uix.popup import Popup
             popup = Popup(title='Erreur!', content=layout,
                           size_hint=(None, None), size=(300, 200),
                           auto_dismiss=False, background="#FFFFFF", title_color="#000000", separator_color="#163586")
             btn.bind(on_press=popup.dismiss)
             popup.open()
+        else:
+            try:
+                con = mysql.connector.connect(host="localhost", user="root", password="", database="ParcAuto")
+                cursor = con.cursor(buffered=True)
+                """cursor.execute("SELECT * FROM secretaire")
+                resultat = cursor.fetchone()
+                res = resultat[0]
+                id = str(res)"""
+                cursor.execute(
+                    "INSERT INTO vehicule (immatriculation,moteur,typeVehicule,etat,"
+                    "dateCirculation,marque,porte,place,couleur,dateInsertion,prix,kilometrage) VALUES ('" + matricule + "','" +moteur + "','" + type + "','" + etat+ "','" +dateCir + "','" + marque + "','" + porte + "','" + place + "','" + couleur + "','" + dateIns + "',"+prix+",'"+km+"')")
+                cursor.execute("commit")
+                popup = Popup(title='INFO!', content=layout2,
+                              size_hint=(None, None), size=(300, 200),
+                              auto_dismiss=False, background="#FFFFFF", title_color="#000000",
+                              separator_color="#163586")
+                btn2.bind(on_press=popup.dismiss)
+                popup.open()
+                self.ids.manager.current = "Accueil"
+                i = list(self.listeVehicule())
+                self.data_tables.row_data=i
+            except:
+                popup = Popup(title='Erreur!', content=layout3,
+                              size_hint=(None, None), size=(300, 200),
+                              auto_dismiss=False, background="#FFFFFF", title_color="#000000",
+                              separator_color="#163586")
+                btn3.bind(on_press=popup.dismiss)
+                popup.open()
 
     def ajouterLocation(self):
-        client = self.ids.client.text
+        client = self.ids.locaClient.text
         livraison = self.ids.livraison.text
         vehiculeLoca = self.ids.vehiculeLoca.text
-        dateLivraison = self.ids.dateLivraison.text
+        dateLivraison = self.ids.dateLivr.text
         dateRetour = self.ids.dateRetour.text
         modePaiement = self.ids.modePaiement.text
         somme = self.ids.somme.text
