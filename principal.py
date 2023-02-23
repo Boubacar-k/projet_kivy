@@ -32,6 +32,7 @@ class SeConnecter(Screen):
         layout3 = GridLayout(cols=1, padding=10)
         layout4 = GridLayout(cols=1, padding=10)
 
+
         lbl = Label(text='Aucun champ ne doit être vide !',color="#000000")
         lbl2 = Label(text='Connecter avec succès', color="#000000")
         lbl3 = Label(text="Email ou mot de passe incorrect", color="#000000")
@@ -64,7 +65,7 @@ class SeConnecter(Screen):
                 con = mysql.connector.connect(host="localhost", user="root", password="", database='ParcAuto')
                 curser = con.cursor()
                 curser.execute(sql, valeur)
-                resultat = curser.fetchall()
+                resultat = curser.fetchone()
                 if resultat:
                     popup = Popup(title='INFO!', content=layout2,
                                   size_hint=(None, None), size=(300, 200),
@@ -77,6 +78,7 @@ class SeConnecter(Screen):
                         pickle.dump(res, outfile)
                     outfile.close()
                     self.parent.current = "accl"
+                    con.close()
                 else:
                     popup = Popup(title='Erreur!', content=layout3,
                                   size_hint=(None, None), size=(300, 200),
@@ -245,10 +247,11 @@ class Accueil(Screen):
         super(Accueil,self).__init__(**kwargs)
         Clock.schedule_once(self.tab)
         i = list(self.listeVehicule())
+        l = list(self.listeLocation())
         #VEHICULE TABLE
         self.data_tables = MDDataTable(
             pos_hint={'center_x': 0.50, 'center_y': 0.500},
-            size_hint=(0.990 , 0.60),
+            size_hint=(0.990 , 0.80),
             use_pagination=True,
             background_color_header="#5887FF",
             background_color_selected_cell="#D6D6D6",
@@ -498,6 +501,17 @@ class Accueil(Screen):
         print(element)
         return element
         con.close()
+    #liste des locations:
+
+    def listeLocation(self):
+        con = mysql.connector.connect(host="localhost", user="root", password="", database="ParcAuto")
+        cursor = con.cursor()
+        cursor.execute( "SELECT v.typeVehicule,l.lieu,l.dateLivraison,l.dateRetour,l.modePaiement,l.somme,l.datePaiement FROM vehicule v,locations l where v.numVehicule = l.numVehicule")
+        element = cursor.fetchall()
+        print(element)
+        return element
+        con.close()
+
     # ECRAN ACCUEIL
     def change_screen(self, instance):
         self.ids.manager.current = "Vehicule"
@@ -567,7 +581,22 @@ class Accueil(Screen):
 
     # DECONNECTER
     def deconnecter(self, instance):
-        self.parent.current = "connect"
+        layoutDec = GridLayout(cols=1, padding=10)
+        layoutDec2 = GridLayout(rows=1, padding=10)
+        lblDec = Label(text='êtes vous sûr de vous deconnecter ?', color="#000000")
+        btnOk = Button(text='Oui', size_hint=(.9, None), size=(200, 50), background_color="#5887FF")
+        btnRetour = Button(text='Non', size_hint=(.9, None), size=(200, 50), background_color="#5887FF")
+        layoutDec.add_widget(lblDec)
+        layoutDec2.add_widget(btnOk)
+        layoutDec2.add_widget(btnRetour)
+        layoutDec.add_widget(layoutDec2)
+        popup = Popup(title='Déconnection', content=layoutDec,
+                      size_hint=(None, None), size=(300, 200),
+                      auto_dismiss=False, background="#FFFFFF", title_color="#000000", separator_color="#163586")
+        btnRetour.bind(on_press=popup.dismiss)
+        if(btnOk.on_press()==True):
+            self.parent.current = "connect"
+        popup.open()
     #TABLEAUX
     def tab(self,d):
         self.ids.vehi.add_widget(self.data_tables)
@@ -1091,6 +1120,7 @@ class Accueil(Screen):
                 self.ids.manager.current = "Accueil"
                 i = list(self.listeVehicule())
                 self.data_tables.row_data=i
+                con.close()
             except:
                 popup = Popup(title='Erreur!', content=layout3,
                               size_hint=(None, None), size=(300, 200),
@@ -1110,12 +1140,22 @@ class Accueil(Screen):
         datePaiement = self.ids.datePaiement.text
 
         layout = GridLayout(cols=1, padding=10)
+        layout2 = GridLayout(cols=1, padding=10)
+        layout3 = GridLayout(cols=1, padding=10)
 
         lbl = Label(text='Aucun champ ne doit être vide !',color="#000000")
         btn = Button(text='OK', size_hint=(.9, None), size=(200, 50),background_color="#5887FF")
+        lbl2 = Label(text='Ajouter avec succès !', color="#000000")
+        btn2 = Button(text='OK', size_hint=(.9, None), size=(200, 50), background_color="#5887FF")
+        lbl3 = Label(text='Problême de connexion !', color="#000000")
+        btn3 = Button(text='OK', size_hint=(.9, None), size=(200, 50), background_color="#5887FF")
 
         layout.add_widget(lbl)
         layout.add_widget(btn)
+        layout2.add_widget(lbl2)
+        layout2.add_widget(btn2)
+        layout3.add_widget(lbl3)
+        layout3.add_widget(btn3)
         if (client=="" or livraison==""or vehiculeLoca==""or dateLivraison==""or dateRetour=="" or modePaiement==""
         or somme=="" or datePaiement==""):
             from kivy.uix.popup import Popup
@@ -1124,6 +1164,35 @@ class Accueil(Screen):
                           auto_dismiss=False, background="#FFFFFF", title_color="#000000", separator_color="#163586")
             btn.bind(on_press=popup.dismiss)
             popup.open()
+        else:
+            try:
+                con = mysql.connector.connect(host="localhost", user="root", password="", database="ParcAuto")
+                cursor = con.cursor(buffered=True)
+                """cursor.execute("SELECT * FROM secretaire")
+                resultat = cursor.fetchone()
+                res = resultat[0]
+                id = str(res)"""
+                cursor.execute(
+                    "INSERT INTO vehicule (numVehicule,numClient,lieu,dateLivraison,"
+                    "dateRetour,modePaiement,somme,datePaiement) VALUES ('" + vehiculeLoca + "','" +client + "','" + livraison + "','" + dateLivraison+ "','" +dateRetour + "','" + modePaiement + "','" + somme + "','" + datePaiement + "')")
+                cursor.execute("commit")
+                popup = Popup(title='INFO!', content=layout2,
+                              size_hint=(None, None), size=(300, 200),
+                              auto_dismiss=False, background="#FFFFFF", title_color="#000000",
+                              separator_color="#163586")
+                btn2.bind(on_press=popup.dismiss)
+                popup.open()
+                self.ids.manager.current = "Accueil"
+                i = list(self.listeVehicule())
+                self.data_tables.row_data=i
+                con.close()
+            except:
+                popup = Popup(title='Erreur!', content=layout3,
+                              size_hint=(None, None), size=(300, 200),
+                              auto_dismiss=False, background="#FFFFFF", title_color="#000000",
+                              separator_color="#163586")
+                btn3.bind(on_press=popup.dismiss)
+                popup.open()
 
     def ajouterVente(self):
         client_vente = self.ids.client_vente.text
